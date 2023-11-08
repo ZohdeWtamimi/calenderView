@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        .day-container {
+            width: calc(100%);
+            text-align: center;
+            background: #fff;
+            border: 0.001px solid #B9D9EB;
+            border-right: 0;
+            border-bottom: 0;
+        }
+
+        .head{
+            background-color: #7CB9E8;
+            color: #fff;
+        }
+
+        .Sat.day-container{
+            border-right: 1px solid #B9D9EB;
+            border-top-right-radius: 7px;
+            border-bottom-right-radius: 7px;
+        }
+
+        .Time.day-container{
+            border-top-left-radius: 7px;
+            border-bottom-left-radius: 7px;
+        }
+
+        .day-container div{
+            height: 60px;
+            line-height: 60px;
+            border-bottom: 1px solid #B9D9EB;
+        }
+        .day-header {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .event {
+            background-color: #e6e6e6;
+            padding: 10px;
+            margin: 5px;
+        }
+
+        .today {
+            background-color: #009688;
+            color: #fff;
+        }
+        #week{
+            display: flex;
+            width: 80%;
+            margin: 0 auto;
+        }
+        .Sun-selected{
+            background-color: #004687ad;
+        }
+        .Mon-selected{
+            background-color: #add8e694;
+        }
+        .Tue-selected{
+            background-color: #6050dc8a;
+        }
+        .Wed-selected{
+            background-color: #005f696e;
+        }
+        .Thu-selected{
+            background-color: #ccccff6e;
+        }
+        .Fri-selected{
+            background-color: #76abdfd1;
+        }
+        .Sat-selected{
+            background-color: #00ccff38;
+        }
+
+        .day-container div:not(.head):not(.hour){
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Week Calendar</h1>
+
+    <div id="week">
+        <div class="Time day-container">
+            <div class="hour"></div>
+            <div class="hour">12:00 AM</div>
+            <div class="hour">1:00 AM</div>
+            <div class="hour">2:00 AM</div>
+            <div class="hour">3:00 AM</div>
+            <div class="hour">4:00 AM</div>
+            <div class="hour">5:00 AM</div>
+            <div class="hour">6:00 AM</div>
+            <div class="hour">7:00 AM</div>
+            <div class="hour">8:00 AM</div>
+            <div class="hour">9:00 AM</div>
+            <div class="hour">10:00 AM</div>
+            <div class="hour">11:00 AM</div>
+            <div class="hour">12:00 PM</div>
+            <div class="hour">1:00 PM</div>
+            <div class="hour">2:00 PM</div>
+            <div class="hour">3:00 PM</div>
+            <div class="hour">4:00 PM</div>
+            <div class="hour">5:00 PM</div>
+            <div class="hour">6:00 PM</div>
+            <div class="hour">7:00 PM</div>
+            <div class="hour">8:00 PM</div>
+            <div class="hour">9:00 PM</div>
+            <div class="hour">10:00 PM</div>
+            <div class="hour">11:00 PM</div>
+        </div>
+        <div class="Sun day-container">
+            <div class="head" >Sun</div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="Mon day-container">
+            <div class="head">Mon</div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="Tue day-container">
+            <div class="head">Tue</div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="Wed day-container">
+            <div class="head">Wed</div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="Thu day-container">
+            <div class="head">Thu</div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="Fri day-container">
+            <div class="head">Fri</div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="Sat day-container">
+            <div class="head">Sat</div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
