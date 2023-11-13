@@ -1,44 +1,38 @@
-console.log('hello world')
-
+const allHours = $('.day-container div:not(.hour):not(.head)');
 var isMousedown = false;
 var parentId = '';
-var selectedTimeSlots = {}; // New variable to store selected time slots
-var selectedTimeAllWeek = {}; // New variable to store selected time slots
+var selectedTimeAllWeek = {};
 
-const days = document.querySelectorAll('.day-container');
-const hours = document.querySelectorAll('.day-container div:not(.hour):not(.head)');
-const daysArray = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-days.forEach((day) => {
-    day.addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        parentId = getParentId(e.target.parentNode.classList.value);
-        e.target.className = setClass(parentId);
-        isMousedown = true;
-        getSelectedHours()
-    });
+$('.day-container').on('mousedown', (e) => {
+    e.preventDefault();
+    parentId = getParentId($(e.target).parent().attr('class'));
+    $(e.target).addClass(setClass(parentId));
+    isMousedown = true;
+    const timeFrom = $(e.target).data('time');
 
-    day.addEventListener('mouseup', (e) => { 
-        isMousedown = false;
-    });
 });
 
-hours.forEach((hour) => {
-    hour.addEventListener('mouseenter', (e) => {
-        e.preventDefault();
-        const isSameDay = parentId == getParentId(e.target.parentNode.classList.value);
-        if (isMousedown && isSameDay) {
-            e.target.className = setClass(parentId);
-            const timeSlot = e.target.innerText;
-            getSelectedHours()
-        }
-    });
+$('.day-container').on('mouseup', (e) => {
+    selectedHoursDay(parentId)
+    // $('#clickModal').click();
+    isMousedown = false;
+});
 
-    hour.addEventListener('dblclick', (e) => {
-        e.preventDefault();
-        
-        let eleClass =  setClass(parentId);
-        e.target.classList.remove(eleClass);
-    });
+// ONLY ADD CLASS SELECTED TO ELEMENT IF THE MOUSEDOWN IS TRUE AND IT IS THE SAME DAY
+allHours.on('mouseenter', (e) => {
+    e.preventDefault();
+    const isSameDay = parentId == getParentId($(e.target).parent().attr('class'));
+    if (isMousedown && isSameDay ) {
+        $(e.target).addClass(setClass(parentId));
+    }
+});
+
+// REMOVE HOUR FROM SELECTED HOURS
+allHours.on('dblclick', (e) => {
+    e.preventDefault();
+    let eleClass = setClass(parentId);
+    $(e.target).removeClass(eleClass);
+    selectedHoursDay(parentId)
 });
 
 function getParentId(classes) {
@@ -50,49 +44,35 @@ function setClass(id) {
 }
 
 
-function getSelectedHours() {
-    daysArray.forEach(day => {
-        let eles = document.querySelectorAll(`.${day}-selected`);
-        if (eles.length > 0) {
-            let from = eles[0].getAttribute('data-time');
-            let to = eles[eles.length - 1].getAttribute('data-time');
-            selectedTimeAllWeek[day] = addOneHourToToTime({ from: from, to: to });
+// UPDATE SELECTED HOURS FOR SECPSFIC HOURS: USEAGE => [MOUSEUP, DBLCLICK]
+function selectedHoursDay(day) {
+    let selectedDay = $('.' + day + '-selected');
+    selectedTimeAllWeek[parentId] = [];
+
+    let fromTime = 0;
+
+    selectedDay.each(function(index, element) {
+        const time = parseInt($(element).data('time'));
+
+        if (index === 0) {
+            fromTime = time;
+        } else {
+            const prevTime = parseInt(selectedDay.eq(index - 1).data('time'));
+            if (time !== prevTime + 1) {
+                // If the current time is not consecutive to the previous, consider it as a new period
+                selectedTimeAllWeek[parentId].push({ from: fromTime, to: prevTime + 1 });
+                fromTime = time;
+            }
         }
+
+        if (index === selectedDay.length - 1) {
+            // For the last element, consider it as the end of the period
+            selectedTimeAllWeek[parentId].push({ from: fromTime, to: time + 1 });
+        }
+
+        console.log(time, 'index: ' + index);
     });
+
     console.log(selectedTimeAllWeek);
 }
 
-
-
-function addOneHourToToTime(timeObject) {
-    // Extract hours
-    let fromHours = parseInt(timeObject.from);
-    let toHours = parseInt(timeObject.to);
-    let duration = (toHours + 1) - fromHours;
-
-    // fromHours = parseInt(fromHours) >= 10 ? fromHours : '0' + fromHours
-    let to = parseInt(fromHours) + duration
-
-    if (to == 12) {
-        to = '12:00 PM';
-    } else if (to == 24) {
-        to = '12:00 AM';
-    } else if (to > 12) {
-        to = (to - 12) + ':00 PM';
-    } else {
-        to = to + ':00 AM';
-    }    
-
-    if (fromHours == 12) {
-        fromHours = '12:00 PM';
-    } else if (fromHours > 12) {
-        fromHours = (fromHours - 12) + ':00 PM';
-    } else {
-        fromHours = fromHours + ':00 AM';
-    }    
-
-    console.log(`from ${fromHours } to ${ to } duration ${duration}` )
-
-    return {from: fromHours, to}
-
-}
